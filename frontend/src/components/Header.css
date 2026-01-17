@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    /* Removed box-shadow so there is no dark line over the video */
+    box-shadow: none; 
+    /* Added text-shadow to make white text pop against the video */
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+/* Optional: Adds a slight blur to the background behind the text 
+   to improve readability without losing transparency */
+.header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    backdrop-filter: blur(2px); /* Subtle frosted glass effect */
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .header .container {
+        padding: 0 20px !important;
+    }
+
+    .header .ant-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .header .ant-col {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    /* Important: Override the inline negative margin from JSX 
+       so the logo centers correctly on mobile */
+    .header .ant-col:first-child > div {
+        margin-left: 0 !important;
+    }
+
+    .header img {
+        width: 50px !important;
+        height: 50px !important;
+    }
+
+    .header h4 {
+        font-size: 16px !important; /* Slightly smaller for better mobile fit */
+        white-space: normal !important;
+        text-align: center;
+    }
+
+    .header .ant-typography {
+        font-size: 10px !important;
+        text-align: center;
+    }
+
+    .ant-space {
+        transform: scale(0.9);
+        justify-content: center;
+    }
+
+    .ant-divider-vertical {
+        height: 30px !important;
+        margin: 0 10px !important;
+    }
+}
+
+/* Tablet Optimization */
+@media (min-width: 769px) and (max-width: 1200px) {
+    .header .container {
+        padding: 0 25px !important;
+    }
+
+    /* Reset margin for tablet as well if needed, or keep it */
+    .header .ant-col:first-child > div {
+        margin-left: 0 !important; 
+    }
+
+    .header img {
+        height: 60px !important;
+        width: 60px !important;
+    }
+
+    .header h4 {
+        font-size: 18px !important;
+    }
+
+    .ant-divider-vertical {
+        margin: 0 15px !important;
+    }
+
+    .ant-space {
+        gap: 15px !important;
+    }
+}
+
+/* Ensure everything stays in one line on desktop */
+@media (min-width: 1201px) {
+    .header .ant-row {
+        flex-wrap: nowrap;
+    }
+}

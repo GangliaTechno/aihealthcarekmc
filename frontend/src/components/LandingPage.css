@@ -1,0 +1,112 @@
+/* Import Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+
+/* =========================================
+   Global Resets & Performance
+   ========================================= */
+   /* Target the placeholder inside Ant Design inputs */
+.bold-placeholder .ant-input::placeholder {
+    font-weight: 450 !important;
+    color: #666; /* Optional: adjust color if needed */
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    background-color: #000; /* Dark background ensures text is readable before video loads */
+}
+
+/* Optimize Image Rendering */
+img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+
+/* =========================================
+   Animations
+   ========================================= */
+
+/* A simple fade-in animation for your "Launching Soon" text */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-entry {
+    animation: fadeInUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* =========================================
+   Ant Design Overrides (Orange Theme)
+   ========================================= */
+
+/* 1. Override the Blue Focus Glow on Inputs */
+.ant-input:focus,
+.ant-input-focused,
+.ant-input:hover {
+    border-color: #ff5722 !important;
+    box-shadow: 0 0 0 2px rgba(255, 87, 34, 0.2) !important;
+}
+
+/* 2. Override the Blue Focus/Hover on Select Dropdowns */
+.ant-select-selector:focus,
+.ant-select-focused .ant-select-selector,
+.ant-select:not(.ant-select-disabled):hover .ant-select-selector {
+    border-color: #ff5722 !important;
+    box-shadow: 0 0 0 2px rgba(255, 87, 34, 0.2) !important;
+}
+
+/* 3. Override Primary Button Hover State */
+.ant-btn-primary:hover {
+    background-color: #f4511e !important; /* Slightly darker orange */
+    border-color: #f4511e !important;
+}
+
+/* 4. Ensure Modal is always on top of the Header */
+.ant-modal-wrap {
+    z-index: 2000 !important; /* Higher than your Header's 1000 */
+}
+
+/* 5. Custom Scrollbar for Modal content if it gets too long */
+.ant-modal-body {
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+/* =========================================
+   Responsive Tweaks
+   ========================================= */
+
+@media (max-width: 768px) {
+    /* Ensure no horizontal scroll on mobile */
+    body {
+        overflow-x: hidden;
+    }
+
+    /* Make modal take more width on mobile */
+    .ant-modal {
+        max-width: 95% !important;
+        margin: 10px auto;
+    }
+    
+    .ant-modal-body {
+        padding: 20px !important;
+    }
+}
