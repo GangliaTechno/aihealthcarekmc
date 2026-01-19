@@ -25,29 +25,28 @@ const Header = () => {
         }}>
             {/* Badge 1 */}
             <div style={{ textAlign: 'center' }}>
-                <Text style={{ display: 'block', color: '#ff5722', fontWeight: '800', fontSize: '10px', lineHeight: '1' }}>
+                <Text style={{ display: 'block', color: '#ff5722', fontWeight: '800', fontSize: '12px', lineHeight: '1' }}>
                     INSTITUTION OF
                 </Text>
-                <Text style={{ display: 'block', color: '#fff', fontWeight: '700', fontSize: '14px', letterSpacing: '0.5px' }}>
+                <Text style={{ display: 'block', color: '#fff', fontWeight: '800', fontSize: '12px' }}>
                     EMINENCE
                 </Text>
             </div>
 
             {/* Badge 2 */}
             <div style={{ 
-                border: '1px solid rgba(255,255,255,0.3)', 
+                
                 padding: '4px 8px', 
-                borderRadius: '50px',
                 textAlign: 'center'
             }}>
-                <Text style={{ color: '#fff', fontSize: '10px', fontWeight: '600' }}>NAAC </Text>
+                <Text style={{ color: '#fff', fontSize: '12px', fontWeight: '800' }}>NAAC </Text>
                 <Text style={{ color: '#fff', fontSize: '12px', fontWeight: '800' }}>A++</Text>
             </div>
 
             {/* Badge 3 */}
             <div style={{ textAlign: 'center' }}>
                 <Text style={{ color: '#fff', fontSize: '12px', fontWeight: '800', marginRight: '4px' }}>NIRF</Text>
-                <Text style={{ color: '#ff5722', fontSize: '16px', fontWeight: '900' }}>#3</Text>
+                <Text style={{ color: '#ff5722', fontSize: '12px', fontWeight: '800' }}>#3</Text>
             </div>
         </div>
     );
@@ -179,29 +178,28 @@ const Header = () => {
                 <div className="header-right-desktop">
                     {/* Badge 1 */}
                     <div style={{ textAlign: 'center' }}>
-                        <Text style={{ display: 'block', color: '#ff5722', fontWeight: '800', fontSize: '10px', lineHeight: '1' }}>
+                        <Text style={{ display: 'block', color: '#ff5722', fontWeight: '800', fontSize: '12px', lineHeight: '1' }}>
                             INSTITUTION OF
                         </Text>
-                        <Text style={{ display: 'block', color: '#fff', fontWeight: '700', fontSize: '14px', letterSpacing: '0.5px' }}>
+                        <Text style={{ display: 'block', color: '#fff', fontWeight: '800', fontSize: '12px', letterSpacing: '0.5px' }}>
                             EMINENCE
                         </Text>
                     </div>
 
                     {/* Badge 2 */}
                     <div style={{ 
-                        border: '1px solid rgba(255,255,255,0.3)', 
-                        padding: '2px 8px', 
-                        borderRadius: '50px',
+                        
+                        padding: '2px 8px',
                         textAlign: 'center'
                     }}>
-                        <Text style={{ color: '#fff', fontSize: '10px', fontWeight: '600' }}>NAAC </Text>
-                        <Text style={{ color: '#fff', fontSize: '14px', fontWeight: '800' }}>A++</Text>
+                        <Text style={{ color: '#fff', fontSize: '12px', fontWeight: '800' }}>NAAC </Text>
+                        <Text style={{ color: '#fff', fontSize: '12px', fontWeight: '800' }}>A++</Text>
                     </div>
 
                     {/* Badge 3 */}
                     <div style={{ textAlign: 'right' }}>
-                        <Text style={{ color: '#fff', fontSize: '14px', fontWeight: '800', marginRight: '4px' }}>NIRF</Text>
-                        <Text style={{ color: '#ff5722', fontSize: '18px', fontWeight: '900' }}>#3</Text>
+                        <Text style={{ color: '#fff', fontSize: '12px', fontWeight: '800', marginRight: '4px' }}>NIRF</Text>
+                        <Text style={{ color: '#ff5722', fontSize: '12px', fontWeight: '800' }}>#3</Text>
                     </div>
                 </div>
 
