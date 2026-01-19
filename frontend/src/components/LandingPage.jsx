@@ -4,7 +4,7 @@ import { MailOutlined, HomeOutlined, TeamOutlined, MessageOutlined } from '@ant-
 import Header from './Header';
 import Footer from './Footer';
 import bgVideo from '../assets/video.mp4'; 
-import videoCover from '../assets/vidcover.png';
+// REMOVED: import videoCover from '../assets/vidcover.png';
 import './LandingPage.css';
 
 const { Title, Text } = Typography;
@@ -86,13 +86,10 @@ const LandingPage = () => {
                 }
 
                 /* 2. RESPONSIVE VIDEO SCALING */
-                /* On Desktop: Scale up to hide bars */
                 .bg-video {
                     transform: scale(1.35);
                     transform-origin: center center;
                 }
-                /* On Mobile (Screens narrower than 768px): Reset scale */
-                /* Mobile screens are usually tall, so 'cover' naturally hides side bars without zoom */
                 @media (max-width: 768px) {
                     .bg-video {
                         transform: scale(1.0); 
@@ -100,7 +97,6 @@ const LandingPage = () => {
                 }
 
                 /* 3. RESPONSIVE MODAL */
-                /* Forces modal to not exceed screen width on mobile */
                 .responsive-modal .ant-modal {
                     max-width: 95vw !important;
                     margin: 10px auto;
@@ -114,15 +110,15 @@ const LandingPage = () => {
             {/* Background Video Layer */}
             <div style={{
                 position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 0, overflow: 'hidden',backgroundColor: '#000', 
-                backgroundImage: `url(${videoCover})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center center' }}>
+                /* REMOVED backgroundImage */
+            }}>
                 <video
-                    className="bg-video" // Added class for responsive scaling
-                    autoPlay loop muted playsInline poster={videoCover}
-                    preload="auto" // Helps buffer the video
+                    className="bg-video"
+                    autoPlay loop muted playsInline 
+                    /* REMOVED poster={videoCover} */
+                    preload="auto"
                     onTimeUpdate={(e) => {
-                        const buffer = 0.25; // 0.25 seconds before end
+                        const buffer = 0.25;
                         if (e.target.currentTime > e.target.duration - buffer) {
                             e.target.currentTime = 0;
                             e.target.play();
@@ -132,7 +128,6 @@ const LandingPage = () => {
                         width: '100%', height: '100%', objectFit: 'cover', opacity: 0.5,
                         transform: 'scale(1.35)', 
                         transformOrigin: 'center center',
-                        /* Hardware acceleration to prevent rendering glitches */
                         backfaceVisibility: 'hidden',
                         WebkitBackfaceVisibility: 'hidden'
                     }}
@@ -158,9 +153,8 @@ const LandingPage = () => {
                 flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
                 textAlign: 'center', position: 'relative', zIndex: 2, padding: '20px',
             }}>
-                {/* Responsive Title using Clamp */}
                 <h1 className="animate-entry" style={{
-                    fontSize: 'clamp(2.5rem, 6vw, 5rem)', // Scales between 2.5rem (mobile) and 5rem (desktop)
+                    fontSize: 'clamp(2.5rem, 6vw, 5rem)',
                     fontWeight: '800', letterSpacing: '2px', margin: '0 0 20px 0', fontFamily: "'Inter', sans-serif"
                 }}>
                     LAUNCHING SOON
@@ -197,7 +191,7 @@ const LandingPage = () => {
             <Modal
                 title={null} footer={null} open={isModalOpen} onCancel={handleCancel}
                 width={600} 
-                className="responsive-modal" // Enables the mobile width override
+                className="responsive-modal"
                 centered destroyOnClose
                 bodyStyle={{ padding: '30px 40px', background: '#fff', borderRadius: '8px' }}
             >
