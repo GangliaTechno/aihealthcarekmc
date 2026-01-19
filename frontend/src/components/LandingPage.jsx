@@ -4,6 +4,7 @@ import { MailOutlined, HomeOutlined, TeamOutlined, MessageOutlined } from '@ant-
 import Header from './Header';
 import Footer from './Footer';
 import bgVideo from '../assets/video.mp4'; 
+import videoCover from '../assets/vidcover.png';
 import './LandingPage.css';
 
 const { Title, Text } = Typography;
@@ -112,13 +113,28 @@ const LandingPage = () => {
 
             {/* Background Video Layer */}
             <div style={{
-                position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 0, overflow: 'hidden'
-            }}>
+                position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 0, overflow: 'hidden',backgroundColor: '#000', 
+                backgroundImage: `url(${videoCover})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center center' }}>
                 <video
                     className="bg-video" // Added class for responsive scaling
-                    autoPlay loop muted playsInline
+                    autoPlay loop muted playsInline poster={videoCover}
+                    preload="auto" // Helps buffer the video
+                    onTimeUpdate={(e) => {
+                        const buffer = 0.25; // 0.25 seconds before end
+                        if (e.target.currentTime > e.target.duration - buffer) {
+                            e.target.currentTime = 0;
+                            e.target.play();
+                        }
+                    }}
                     style={{
-                        width: '100%', height: '100%', objectFit: 'cover', opacity: 0.7
+                        width: '100%', height: '100%', objectFit: 'cover', opacity: 0.5,
+                        transform: 'scale(1.35)', 
+                        transformOrigin: 'center center',
+                        /* Hardware acceleration to prevent rendering glitches */
+                        backfaceVisibility: 'hidden',
+                        WebkitBackfaceVisibility: 'hidden'
                     }}
                 >
                     <source src={bgVideo} type="video/mp4" />
@@ -153,7 +169,7 @@ const LandingPage = () => {
                 <p className="animate-entry" style={{
                     fontSize: '14px', maxWidth: '800px', lineHeight: '1.6', margin: '0 0 40px 0', opacity: 0.9, animationDelay: '0.2s' 
                 }}>
-                    India’s first AI in Healthcare department at KMC Manipal (Aug 2025) integrates AI with clinical practice and education.
+                    The AI in Healthcare department at KMC Manipal was inaugurated in August 2025 to integrate AI with clinical practice and education.
                     It advances AI-driven diagnostics, decision-making, and responsible healthcare innovation.
                 </p>
 
