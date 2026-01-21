@@ -1,10 +1,13 @@
-import { useState } from 'react';
-import { Form, Input, Select, Button, Typography, Modal, message, ConfigProvider } from 'antd';
+import { useState, useRef, useEffect } from 'react';
+import { Form, Input, Select, Button, Typography, Modal, message, ConfigProvider, Carousel } from 'antd';
 import { MailOutlined, HomeOutlined, TeamOutlined, MessageOutlined } from '@ant-design/icons';
 import Header from './Header';
 import Footer from './Footer';
-import bgVideo from '../assets/video.mp4'; 
-// REMOVED: import videoCover from '../assets/vidcover.png';
+import bgVideo from '../assets/video.mov'; 
+import img1 from '../assets/img2.jpg';
+import img2 from '../assets/img1.png';
+import img3 from '../assets/img3.webp';
+import img4 from '../assets/img4.png';
 import './LandingPage.css';
 
 const { Title, Text } = Typography;
@@ -13,19 +16,30 @@ const { Option } = Select;
 const LandingPage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [form] = Form.useForm();
+    const videoRef = useRef(null);
 
-    const showModal = () => {
-        setIsModalOpen(true);
-    };
+    // Force autoplay for Safari/iOS
+    useEffect(() => {
+        if (videoRef.current) {
+            videoRef.current.defaultMuted = true; 
+            videoRef.current.muted = true;
+            videoRef.current.play().catch(error => console.log("Autoplay prevented:", error));
+        }
+    }, []);
 
-    const handleCancel = () => {
-        setIsModalOpen(false);
-        form.resetFields();
-    };
+    // Reset form when modal closes
+    useEffect(() => {
+        if (!isModalOpen) {
+            form.resetFields();
+        }
+    }, [isModalOpen, form]);
+
+    const showModal = () => setIsModalOpen(true);
+    const handleCancel = () => setIsModalOpen(false);
 
     const onFinish = (values) => {
         const subject = `New Inquiry: ${values.collaborationType} - ${values.company}`;
-        const body = `New Inquiry Received:\n\nEmail: ${values.email}\nPhone: +91 ${values.phone}\nCompany/Organization: ${values.company}\nCollaboration Type: ${values.collaborationType}\n\nMessage:\n${values.comments || 'No comments provided.'}`;
+        const body = `New Inquiry Received:\n\nEmail: ${values.email}\nPhone: +91 ${values.phone}\nCompany/Organization: ${values.company}\nCollaboration Type: ${values.collaborationType}\n\nMessage:\n${values.comments}`;
         const mailtoLink = `mailto:aihealthcare.kmc@manipal.edu?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
         
         const link = document.createElement('a');
@@ -36,200 +50,240 @@ const LandingPage = () => {
 
         message.success('Opening your email client...');
         setIsModalOpen(false);
-        form.resetFields();
     };
 
     const prefixSelector = (
         <span style={{ fontSize: '15px', fontWeight: '600', color: '#1a1a1a', padding: '0 4px', fontFamily: "'Inter', sans-serif" }}>+91</span>
     );
 
+    const collaborationOptions = [
+        { value: 'academic', label: 'Academic' },
+        { value: 'research', label: 'Research' },
+        { value: 'innovation', label: 'Innovation' },
+        { value: 'project', label: 'Project' },
+    ];
+
     return (
-        <div style={{
-            position: 'relative',
-            minHeight: '100vh',
-            display: 'flex',
-            flexDirection: 'column',
-            overflow: 'hidden',
-            backgroundColor: '#000',
-            color: '#fff'
-        }}>
-            {/* --- RESPONSIVE CSS OVERRIDES --- */}
+        <div style={{ position: 'relative', minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#fff' }}>
+            
+            {/* --- RESPONSIVE CSS --- */}
             <style>{`
-                /* 1. INPUT STYLING (Glow & Bold) */
-                .ant-input-affix-wrapper:focus, .ant-input-affix-wrapper-focused,
-                .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover,
-                .ant-select-selector:focus, .ant-select-focused .ant-select-selector,
-                .ant-select:not(.ant-select-disabled):hover .ant-select-selector,
-                textarea.ant-input:focus, textarea.ant-input:hover {
-                    border-color: #ff5722 !important;
-                    box-shadow: 0 0 0 2px rgba(255, 87, 34, 0.2) !important;
+                /* 1. SLIDER STYLES */
+                .custom-carousel .slick-slide {
+                    /* Desktop Height */
+                    height: 750px; 
+                    overflow: hidden;
+                    position: relative;
+                    background: #000;
+                   
+                    align-items: center;
+                    justify-content: center;
                 }
 
-                .ant-input-affix-wrapper > input.ant-input,
-                .ant-input-affix-wrapper > input.ant-input:focus {
-                    box-shadow: none !important;
-                    border: none !important;
+                .custom-carousel img {
+                    width: 100% !important;
+                    height: 100% !important;
+                    /* CHANGED: 'cover' fills the space, removing black borders */
+                    object-fit: cover !important; 
                 }
 
-                .ant-input, .ant-input-affix-wrapper input, .ant-select-selection-item {
-                    font-weight: 600 !important;
-                    font-family: 'Inter', sans-serif !important;
-                    color: #1a1a1a !important;
+                .slider-overlay {
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 70%;
+                    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
+                    pointer-events: none;
+                }
+                    /* Top Overlay (New) */
+                .slider-overlay-top {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 70%;
+                    background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+                    pointer-events: none;
+                    z-index: 2;
                 }
 
-                .ant-input::placeholder, .ant-input-affix-wrapper input::placeholder,
-                textarea.ant-input::placeholder, .ant-select-selection-placeholder {
-                    font-weight: 600 !important;
-                    opacity: 0.8 !important;
-                    color: #666 !important;
-                    font-family: 'Inter', sans-serif !important;
-                }
-
-                /* 2. RESPONSIVE VIDEO SCALING */
+                /* 2. HERO / VIDEO SECTION */
                 .bg-video {
-                    transform: scale(1.35);
+                    transform: scale(1.35); /* Zoom effect for desktop */
                     transform-origin: center center;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
                 }
+
+                /* 3. FORM STYLES */
+                .ant-input-affix-wrapper:focus, 
+                .ant-input-affix-wrapper-focused,
+                .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover,
+                .ant-input:focus,
+                .ant-input:hover,
+                .ant-select-selector:focus,
+                .ant-select-focused .ant-select-selector,
+                .ant-select:not(.ant-select-disabled):hover .ant-select-selector {
+                    box-shadow: none !important; 
+                    border-color: #ff5722 !important; 
+                }
+
+                .ant-input::placeholder, 
+                .ant-input textarea::placeholder {
+                    font-weight: 600 !important; 
+                    color: #888 !important; 
+                    opacity: 1; 
+                }
+                .ant-select-selection-placeholder {
+                    font-weight: 600 !important;
+                    color: #888 !important;
+                }
+
+                /* --- MOBILE RESPONSIVENESS --- */
                 @media (max-width: 768px) {
-                    .bg-video {
-                        transform: scale(1.0); 
-                    }
+                    /* Smaller slider height on mobile */
+                    .custom-carousel .slick-slide { height: 350px; }
+                    
+                    /* Reset video zoom on mobile so it fits better */
+                    .bg-video { transform: scale(1.0); }
                 }
-
-                /* 3. RESPONSIVE MODAL */
-                .responsive-modal .ant-modal {
-                    max-width: 95vw !important;
-                    margin: 10px auto;
-                    padding-bottom: 20px;
-                }
-                .responsive-modal .ant-modal-content {
-                    padding: 20px !important;
-                }
-            `}</style>
-
-            {/* Background Video Layer */}
-            <div style={{
-                position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 0, overflow: 'hidden',backgroundColor: '#000', 
-                /* REMOVED backgroundImage */
-            }}>
-                <video
-                    className="bg-video"
-                    autoPlay loop muted playsInline 
-                    /* REMOVED poster={videoCover} */
-                    preload="auto"
-                    onTimeUpdate={(e) => {
-                        const buffer = 0.25;
-                        if (e.target.currentTime > e.target.duration - buffer) {
-                            e.target.currentTime = 0;
-                            e.target.play();
-                        }
-                    }}
-                    style={{
-                        width: '100%', height: '100%', objectFit: 'cover', opacity: 0.5,
-                        transform: 'scale(1.35)', 
-                        transformOrigin: 'center center',
-                        backfaceVisibility: 'hidden',
-                        WebkitBackfaceVisibility: 'hidden'
-                    }}
-                >
-                    <source src={bgVideo} type="video/mp4" />
-                </video>
-            </div>
-
-            {/* Gradient Overlay */}
-            <div style={{
-                position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: 1, 
-                background: 'linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 75%, #000000 100%)',
-                pointerEvents: 'none'
-            }}></div>
+            `}</style> 
+            
 
             {/* Header */}
-            <div style={{ position: 'relative', zIndex: 2 }}>
+            <div style={{ position: 'relative', zIndex: 10 }}>
                 <Header />
             </div>
 
-            {/* Main Content */}
-            <div style={{
-                flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-                textAlign: 'center', position: 'relative', zIndex: 2, padding: '20px',
-            }}>
-                <h1 className="animate-entry" style={{
-                    fontSize: 'clamp(2.5rem, 6vw, 5rem)',
-                    fontWeight: '800', letterSpacing: '2px', margin: '0 0 20px 0', fontFamily: "'Inter', sans-serif"
-                }}>
-                    LAUNCHING SOON
-                </h1>
+            {/* VIDEO SECTION */}
+            <div style={{ position: 'relative', height: '91vh', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
+                <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }}>
+                    <video
+                        ref={videoRef}
+                        className="bg-video"
+                        autoPlay muted loop playsInline
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    >
+                        <source src={bgVideo} type="video/mp4" />
+                    </video>
+                    {/* Dark Overlay */}
+                    <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0,0,0,0.5)' }}></div>
+                </div>
 
-                <p className="animate-entry" style={{
-                    fontSize: '14px', maxWidth: '800px', lineHeight: '1.6', margin: '0 0 40px 0', opacity: 0.9, animationDelay: '0.2s' 
-                }}>
-                    The AI in Healthcare department at KMC Manipal was inaugurated in August 2025 to integrate AI with clinical practice and education.
-                    It advances AI-driven diagnostics, decision-making, and responsible healthcare innovation.
-                </p>
+                <div style={{ position: 'relative', zIndex: 2, padding: '20px', color: '#fff' }}>
+                    <h1 style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: '800', margin: '0 0 20px 0', fontFamily: "'Inter', sans-serif" }}>
+                        <div>OFFICIAL WEBSITE </div>
+                        <div>LAUNCHING SOON</div>
+                    </h1>
+                    <p style={{ fontSize: '18px', maxWidth: '700px', margin: '0 auto 30px auto', lineHeight: '1.6' }}>
+                        The AI in Healthcare department at KMC Manipal was inaugurated in August 2025 to integrate AI with clinical practice and education.
+                    </p>
+                    <button
+                        onClick={showModal}
+                        style={{
+                            padding: '14px 35px', backgroundColor: '#ff5722', color: '#fff', border: 'none',
+                            borderRadius: '50px', fontSize: '15px', fontWeight: '700', cursor: 'pointer',
+                        }}
+                    >
+                        CONTACT US
+                    </button>
+                </div>
 
-                <button
-                    onClick={showModal} className="animate-entry"
-                    style={{
-                        padding: '16px 40px', backgroundColor: '#ff5722', color: '#fff', border: 'none',
-                        borderRadius: '50px', fontSize: '16px', fontWeight: '600', cursor: 'pointer',
-                        transition: 'transform 0.2s ease, background 0.2s ease', boxShadow: '0 4px 15px rgba(255, 87, 34, 0.4)',
-                        animationDelay: '0.4s'
-                    }}
-                    onMouseOver={(e) => e.target.style.transform = 'scale(1.05)'}
-                    onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
-                >
-                    CONTACT US
-                </button>
+                {/* --- ADDED: Gradient Fade Transition --- */}
+                <div style={{ 
+                    position: 'absolute', 
+                    bottom: 0, 
+                    left: 0, 
+                    width: '100%', 
+                    height: '150px', 
+                    background: 'linear-gradient(to bottom, transparent, #000)', 
+                    zIndex: 5,
+                    pointerEvents: 'none' 
+                }}></div>
+
             </div>
 
+            {/* SLIDER SECTION */}
+            <div style={{ width: '100%', background: '#000' }}>
+                <Carousel autoplay autoplaySpeed={2000} effect="fade" className="custom-carousel">
+                   <div>
+                        <div className="slider-overlay-top"></div> {/* New Top Overlay */}
+                        <div className="slider-overlay"></div>     {/* Existing Bottom Overlay */}
+                        <img src={img2} alt="Campus 2" />
+                    </div>
+                    <div>
+                        <div className="slider-overlay-top"></div> {/* New Top Overlay */}
+                        <div className="slider-overlay"></div>     {/* Existing Bottom Overlay */}
+                        <img src={img4} alt="Campus 4" />
+                    </div>
+                </Carousel>
+            </div>
+            
             {/* Footer */}
             <div style={{ position: 'relative', zIndex: 2 }}>
                 <Footer />
             </div>
 
-            {/* --- INQUIRY MODAL --- */}
-            <Modal
-                title={null} footer={null} open={isModalOpen} onCancel={handleCancel}
-                width={600} 
-                className="responsive-modal"
-                centered destroyOnClose
-                bodyStyle={{ padding: '30px 40px', background: '#fff', borderRadius: '8px' }}
-            >
-                <div style={{ textAlign: 'center', marginBottom: '30px' }}>
+            {/* --- MODAL --- */}
+            <Modal open={isModalOpen} onCancel={handleCancel} footer={null} width={600} centered destroyOnClose>
+                <div style={{ textAlign: 'center', marginBottom: '25px' }}>
                     <Title level={3} style={{ margin: 0, color: '#1a1a1a', fontWeight: '700', fontFamily: "'Inter', sans-serif" }}>Welcome!</Title>
                     <Text style={{ color: '#666', fontSize: '14px', fontWeight: '500' }}>Kindly provide your details for further communication</Text>
                 </div>
                 
-                <Form form={form} name="inquiry_form" onFinish={onFinish} layout="vertical" size="large">
-                    <Form.Item name="email" rules={[{ type: 'email', message: 'The input is not valid E-mail!' }, { required: true, message: 'Please input your E-mail!' }]} style={{ marginBottom: '20px' }}>
-                        <Input className="bold-placeholder" prefix={<MailOutlined style={{ color: '#999', marginRight: '10px' }} />} placeholder="Email address*" style={{ borderRadius: '6px', fontSize: '15px', fontWeight: '600' }} />
+                <Form form={form} onFinish={onFinish} layout="vertical" size="large" preserve={false}>
+                    
+                    {/* Email */}
+                    <Form.Item name="email" rules={[{ type: 'email', message: 'Invalid E-mail!' }, { required: true, message: 'Please input your E-mail!' }]}>
+                        <Input prefix={<MailOutlined style={{ color: '#999', marginRight: '10px' }} />} placeholder="Email address*" />
                     </Form.Item>
 
-                    <Form.Item name="phone" rules={[{ required: true, message: 'Please input your phone number!' }, { pattern: /^\d{10}$/, message: 'not a valid number' }]} style={{ marginBottom: '20px' }}>
-                        <Input className="bold-placeholder" addonBefore={prefixSelector} placeholder="Phone number*" maxLength={10} style={{ borderRadius: '6px', fontSize: '15px', fontWeight: '600' }} />
+                    {/* Phone */}
+                    <Form.Item 
+                        name="phone" 
+                        rules={[
+                            { required: true, message: 'Please input phone number!' }, 
+                            { pattern: /^\d{10}$/, message: 'Please enter a valid phone number' }
+                        ]}
+                    >
+                        <Input addonBefore={prefixSelector} placeholder="Phone number*" maxLength={10} />
                     </Form.Item>
 
-                    <Form.Item name="company" rules={[{ required: true, message: 'Please input your Company name!' }]} style={{ marginBottom: '20px' }}>
-                        <Input className="bold-placeholder" prefix={<HomeOutlined style={{ color: '#999', marginRight: '10px' }} />} placeholder="Company / Organization name*" style={{ borderRadius: '6px', fontSize: '15px', fontWeight: '600' }} />
+                    {/* Company */}
+                    <Form.Item name="company" rules={[{ required: true, message: 'Please input Company name!' }]}>
+                        <Input prefix={<HomeOutlined style={{ color: '#999', marginRight: '10px' }} />} placeholder="Company / Organization name*" />
                     </Form.Item>
 
-                    <Form.Item name="collaborationType" rules={[{ required: true, message: 'Please select collaboration type!' }]} style={{ marginBottom: '20px' }}>
+                    {/* Collaboration Type */}
+                    <Form.Item name="collaborationType" rules={[{ required: true, message: 'Select collaboration type!' }]}>
                         <ConfigProvider theme={{ token: { colorPrimary: '#ff5722' } }}>
-                            <Select getPopupContainer={(trigger) => trigger.parentNode} className="bold-placeholder" placeholder="Collaboration type*" suffixIcon={<TeamOutlined style={{ color: '#999' }} />} style={{ borderRadius: '6px', fontWeight: '600' }}>
-                                <Option value="academic">Academic</Option>
-                                <Option value="research">Research</Option>
-                                <Option value="innovation">Innovation</Option>
-                                <Option value="project">Project</Option>
+                            <Select 
+                                placeholder="Collaboration type*"
+                                suffixIcon={<TeamOutlined style={{ color: '#999' }} />}
+                                getPopupContainer={(trigger) => trigger.parentNode}
+                            >
+                                {collaborationOptions.map(option => (
+                                    <Option key={option.value} value={option.value}>
+                                        {option.label}
+                                    </Option>
+                                ))}
                             </Select>
                         </ConfigProvider>
                     </Form.Item>
 
-                    <Form.Item name="comments" style={{ marginBottom: '24px' }}>
-                        <Input.TextArea className="bold-placeholder" prefix={<MessageOutlined style={{ color: '#999', marginRight: '10px' }} />} placeholder="Comments / message" rows={3} style={{ borderRadius: '6px', fontSize: '15px', fontWeight: '600' }} />
+                    {/* Comments */}
+                    <Form.Item name="comments" rules={[{ required: true, message: 'Please enter your comments!' }]}>
+                        <Input.TextArea 
+                            prefix={<MessageOutlined style={{ color: '#999', marginRight: '10px' }} />} 
+                            placeholder="Comments / message*" 
+                            rows={3} 
+                        />
                     </Form.Item>
 
                     <Form.Item style={{ marginBottom: 0 }}>
-                        <Button type="primary" htmlType="submit" block style={{ backgroundColor: '#ff5722', borderColor: '#ff5722', height: '46px', borderRadius: '6px', fontWeight: '700', fontSize: '16px', fontFamily: "'Inter', sans-serif" }}>Submit Inquiry</Button>
+                        <Button type="primary" htmlType="submit" block style={{ backgroundColor: '#ff5722', height: '46px', fontSize: '16px' }}>Submit Inquiry</Button>
                     </Form.Item>
                 </Form>
             </Modal>
