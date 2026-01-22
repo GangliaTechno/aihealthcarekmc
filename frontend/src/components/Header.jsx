@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { Typography, Dropdown, Button, theme } from 'antd';
 import { MoreOutlined } from '@ant-design/icons';
-import logo from '/favicon.png'; 
+// ** IMPORTANT: Replace this import with your new image file path **
+import newLogoImg from '/favicon.png'; // <-- PLACEHOLDER path
 
-const { Title, Text } = Typography;
+const { Text } = Typography;
 const { useToken } = theme;
 
 const Header = () => {
@@ -17,7 +18,7 @@ const Header = () => {
             background: '#D3D3D3', 
             borderRadius: '8px',
             display: 'flex',
-            flexDirection: 'column', // Columnwise as requested
+            flexDirection: 'column', 
             justifyContent: 'center',
             alignItems: 'center',
             gap: '15px', 
@@ -26,24 +27,20 @@ const Header = () => {
         }}>
              {/* Badge 1 */}
              <div style={{ textAlign: 'center' }}>
-                <Text style={{ display: 'block', color: '#ff5722', fontWeight: '800', fontSize: '15px', fontFamily: "'Inter', sans-serif", lineHeight: '1' }}>
+                <Text style={{ display: 'block', color: '#ff5722', fontWeight: '800', fontSize: '15px', fontFamily: "'EB Garamond', serif", lineHeight: '1' }}>
                     INSTITUTION OF
                 </Text>
-                <Text style={{ display: 'block', color: '#000', fontWeight: '800', fontSize: '15px', fontFamily: "'Inter', sans-serif", lineHeight: '1' }}>
+                <Text style={{ display: 'block', color: '#000', fontWeight: '800', fontSize: '15px', fontFamily: "'EB Garamond', serif", lineHeight: '1' }}>
                     EMINENCE
                 </Text>
             </div>
-            
             <div style={{ width: '40px', height: '1px', background: 'rgba(0,0,0,0.1)' }}></div>
-            
             {/* Badge 2 */}
             <div style={{ textAlign: 'center' }}>
                 <Text style={{ color: '#000', fontSize: '15px', fontWeight: '800', fontFamily: "'Inter', sans-serif" }}>NAAC </Text>
                 <Text style={{ color: '#000', fontSize: '15px', fontWeight: '800', fontFamily: "'Inter', sans-serif" }}>A++</Text>
             </div>
-            
             <div style={{ width: '40px', height: '1px', background: 'rgba(0,0,0,0.1)' }}></div>
-            
             {/* Badge 3 */}
             <div style={{ textAlign: 'center' }}>
                 <Text style={{ color: '#000', fontSize: '15px', fontWeight: '800', marginRight: '4px', fontFamily: "'Inter', sans-serif" }}>NIRF</Text>
@@ -54,26 +51,73 @@ const Header = () => {
 
     return (
         <>
+            {/* IMPORT EB GARAMOND FONT */}
+            <style>
+                @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&display=swap');
+            </style>
+
             <style>{`
                 /* 1. Base Styles */
                 .header-container {
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
-                    padding: 5px 20px; 
+                    /* CHANGED: Increased vertical padding to 14px (+2pts) */
+                    padding: 14px 80px; 
                     width: 100%;
-                    max-width: 1800;
+                    max-width: 1800px;
                     margin: 0 auto;
-                    flex-wrap: nowrap; /* <--- CRITICAL: Prevents stacking */
+                    flex-wrap: nowrap; 
                 }
 
                 .header-left {
                     display: flex;
                     align-items: center;
-                    gap: 12px;
+                    gap: 0; 
                     text-align: left;
                     flex: 1;
-                    min-width: 0; /* Allows text to shrink below implicit width */
+                    min-width: 0; 
+                }
+
+                /* NEW LEFT SECTION STYLES */
+                .new-logo-img {
+                    /* CHANGED: Increased height to 75px so internal text is visible */
+                    height: 75px; 
+                    width: auto;
+                    flex-shrink: 0;
+                }
+
+                .header-separator {
+                    /* CHANGED: Matched height to new logo size */
+                    height: 65px; 
+                    width: 1px;
+                    background-color: rgba(0,0,0,0.2); 
+                    margin: 0 25px; 
+                    flex-shrink: 0;
+                }
+
+                .header-title-container {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                }
+
+                /* EB Garamond Typography Styles */
+                .garamond-title-primary {
+                    font-family: 'EB Garamond', serif;
+                    font-size: 22px;
+                    font-weight: 500; 
+                    color: #000;
+                    line-height: 1.1;
+                    margin-bottom: 2px; 
+                }
+                
+                .garamond-title-secondary {
+                    font-family: 'EB Garamond', serif;
+                    font-size: 16px;
+                    font-weight: 400; 
+                    color: #333;
+                    line-height: 1.1;
                 }
 
                 .header-right-desktop {
@@ -90,89 +134,44 @@ const Header = () => {
                     margin-left: 10px;
                 }
 
-                .logo-img {
-                    height: 65px; 
-                    width: auto;
-                    flex-shrink: 0; /* Prevents logo from squishing */
-                }
-
-                /* TEXT STYLES */
-                .main-title {
-                    white-space: nowrap; /* Keeps title on one line */
-                    color: #333 !important;
-                    margin: 0 !important;
-                    line-height: 1.2;
-                }
-                
-                .sub-text {
-                    white-space: nowrap; /* Keeps subtitle on one line */
-                }
 
                 /* 2. Responsive Styles */
                 @media (max-width: 992px) {
                     .header-container {
-                        padding: 5px 15px; /* Tighter padding on mobile */
+                        /* Maintain increased vertical padding on mobile */
+                        padding: 14px 20px; 
                     }
 
-                    /* Hide Desktop Badges */
                     .header-right-desktop { display: none; }
-                    
-                    /* Show Menu Button */
                     .mobile-menu-btn { display: block; }
-
-                    .header-left {
-                        gap: 8px; /* Reduce gap between logo and text */
-                    }
-
-                    /* ZOOM OUT EFFECT: Scales down Logo */
-                    .logo-img { 
-                        height: 48px; 
-                    }
-
-                    /* ZOOM OUT EFFECT: Fluid Typography for Text 
-                       clamp(min, preferred, max) scales text smoothly based on viewport width (vw)
-                    */
-                    .main-title {
-                        font-size: clamp(11px, 3.5vw, 16px) !important;
-                    }
-
-                    .sub-text {
-                        font-size: clamp(9px, 3vw, 12px) !important;
-                    }
+                    
+                    /* Reduce sizes for mobile */
+                    .new-logo-img { height: 50px; }
+                    .header-separator { height: 45px; margin: 0 15px; }
+                    
+                    /* Fluid typography for mobile */
+                    .garamond-title-primary { font-size: clamp(16px, 4vw, 20px) !important; }
+                    .garamond-title-secondary { font-size: clamp(12px, 3vw, 15px) !important; }
                 }
             `}</style>
 
-            <div style={{ width: '100%', background: '#D3D3D3', borderBottom: '1px solid #e0e0e0' }}>
+            <div style={{ width: '100%', background: '#D3D3D3', borderBottom: '1px solid #c0c0c0' }}>
                 <div className="header-container">
-                    {/* --- LEFT SECTION --- */}
+                    {/* --- NEW LEFT SECTION --- */}
                     <div className="header-left">
-                        <img src={logo} alt="MAHE Logo" className="logo-img" />
+                        {/* 1. The Image */}
+                        <img src={newLogoImg} alt="KMC Logo" className="new-logo-img" />
                         
-                        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                            <Title className="main-title" level={4} style={{ 
-                                color: '#1a1a1a', 
-                                fontWeight: '800', 
-                                textTransform: 'uppercase',
-                                fontFamily: "'Inter', sans-serif",
-                            }}>
-                                Department of AI in Healthcare
-                            </Title>
-                            
-                            <Text className="sub-text" style={{ 
-                                color: '#1a1a1a', 
-                                display: 'block', 
-                                fontWeight: '500',
-                                fontFamily: "'Inter', sans-serif",
-                            }}>
-                                KASTURBA MEDICAL COLLEGE
+                        {/* 2. The Separator */}
+                        <div className="header-separator"></div>
+                        
+                        {/* 3. The Stacked Text (EB Garamond) */}
+                        <div className="header-title-container">
+                            <Text strong className="garamond-title-primary">
+                                Dept of AI in Healthcare
                             </Text>
-                            
-                            <Text className="sub-text" style={{ 
-                                color: '#666', 
-                                display: 'block', 
-                                fontStyle: 'italic',
-                            }}>
-                                (A constituent unit of MAHE, Manipal)
+                            <Text className="garamond-title-secondary">
+                                Kasturba Medical College, Manipal
                             </Text>
                         </div>
                     </div>
