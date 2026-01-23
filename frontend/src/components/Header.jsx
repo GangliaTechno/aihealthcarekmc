@@ -37,14 +37,14 @@ const Header = () => {
             <div style={{ width: '40px', height: '1px', background: 'rgba(0,0,0,0.1)' }}></div>
             {/* Badge 2 */}
             <div style={{ textAlign: 'center' }}>
-                <Text style={{ color: '#000', fontSize: '15px', fontWeight: '800', fontFamily: "'Inter', sans-serif" }}>NAAC </Text>
-                <Text style={{ color: '#000', fontSize: '15px', fontWeight: '800', fontFamily: "'Inter', sans-serif" }}>A++</Text>
+                <Text style={{ color: '#000', fontSize: '15px', fontWeight: '800', fontFamily: "'EB Garamond', serif" }}>NAAC </Text>
+                <Text style={{ color: '#000', fontSize: '15px', fontWeight: '800', fontFamily: "'EB Garamond', serif" }}>A++</Text>
             </div>
             <div style={{ width: '40px', height: '1px', background: 'rgba(0,0,0,0.1)' }}></div>
             {/* Badge 3 */}
             <div style={{ textAlign: 'center' }}>
-                <Text style={{ color: '#000', fontSize: '15px', fontWeight: '800', marginRight: '4px', fontFamily: "'Inter', sans-serif" }}>NIRF</Text>
-                <Text style={{ color: '#ff5722', fontSize: '15px', fontWeight: '800', fontFamily: "'Inter', sans-serif" }}>#3</Text>
+                <Text style={{ color: '#000', fontSize: '15px', fontWeight: '800', marginRight: '4px', fontFamily: "'EB Garamond', serif" }}>NIRF</Text>
+                <Text style={{ color: '#ff5722', fontSize: '15px', fontWeight: '800', fontFamily: "'EB Garamond', serif" }}>#3</Text>
             </div>
         </div>
     );
@@ -53,7 +53,7 @@ const Header = () => {
         <>
             {/* IMPORT EB GARAMOND FONT */}
             <style>
-                @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&display=swap');
+                @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;800&display=swap');
             </style>
 
             <style>{`
@@ -62,7 +62,6 @@ const Header = () => {
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
-                    /* CHANGED: Increased vertical padding to 14px (+2pts) */
                     padding: 14px 80px; 
                     width: 100%;
                     max-width: 1800px;
@@ -81,14 +80,12 @@ const Header = () => {
 
                 /* NEW LEFT SECTION STYLES */
                 .new-logo-img {
-                    /* CHANGED: Increased height to 75px so internal text is visible */
                     height: 75px; 
                     width: auto;
                     flex-shrink: 0;
                 }
 
                 .header-separator {
-                    /* CHANGED: Matched height to new logo size */
                     height: 65px; 
                     width: 1px;
                     background-color: rgba(0,0,0,0.2); 
@@ -138,20 +135,22 @@ const Header = () => {
                 /* 2. Responsive Styles */
                 @media (max-width: 992px) {
                     .header-container {
-                        /* Maintain increased vertical padding on mobile */
-                        padding: 14px 20px; 
+                        /* Tighter padding on mobile */
+                        padding: 10px 15px; 
                     }
 
                     .header-right-desktop { display: none; }
                     .mobile-menu-btn { display: block; }
                     
-                    /* Reduce sizes for mobile */
-                    .new-logo-img { height: 50px; }
-                    .header-separator { height: 45px; margin: 0 15px; }
+                    /* CHANGED: Smaller logo for mobile */
+                    .new-logo-img { height: 38px; }
+
+                    /* CHANGED: Tighter separator spacing */
+                    .header-separator { height: 32px; margin: 0 12px; }
                     
-                    /* Fluid typography for mobile */
-                    .garamond-title-primary { font-size: clamp(16px, 4vw, 20px) !important; }
-                    .garamond-title-secondary { font-size: clamp(12px, 3vw, 15px) !important; }
+                    /* CHANGED: Smaller fonts to fit on one line */
+                    .garamond-title-primary { font-size: 16px !important; }
+                    .garamond-title-secondary { font-size: 12px !important; }
                 }
             `}</style>
 
@@ -159,15 +158,10 @@ const Header = () => {
                 <div className="header-container">
                     {/* --- NEW LEFT SECTION --- */}
                     <div className="header-left">
-                        {/* 1. The Image */}
                         <img src={newLogoImg} alt="KMC Logo" className="new-logo-img" />
-                        
-                        {/* 2. The Separator */}
                         <div className="header-separator"></div>
-                        
-                        {/* 3. The Stacked Text (EB Garamond) */}
                         <div className="header-title-container">
-                            <Text strong className="garamond-title-primary">
+                            <Text className="garamond-title-primary">
                                 Dept of AI in Healthcare
                             </Text>
                             <Text className="garamond-title-secondary">
@@ -179,16 +173,16 @@ const Header = () => {
                     {/* --- RIGHT SECTION (DESKTOP) --- */}
                     <div className="header-right-desktop">
                         <div style={{ textAlign: 'center' }}>
-                            <Text style={{ display: 'block', color: '#ff5722', fontWeight: '800', fontSize: '15px', lineHeight: '1', fontFamily: "'Inter', sans-serif" }}>INSTITUTION OF</Text>
-                            <Text style={{ display: 'block', color: '#000', fontWeight: '800', fontSize: '15px', lineHeight: '1', fontFamily: "'Inter', sans-serif" }}>EMINENCE</Text>
+                            <Text style={{ display: 'block', color: '#ff5722', fontWeight: '800', fontSize: '15px', lineHeight: '1', fontFamily: "'EB Garamond', serif" }}>INSTITUTION OF</Text>
+                            <Text style={{ display: 'block', color: '#000', fontWeight: '800', fontSize: '15px', lineHeight: '1', fontFamily: "'EB Garamond', serif" }}>EMINENCE</Text>
                         </div>
                         <div style={{ textAlign: 'center' }}>
-                            <Text style={{ color: '#000', fontSize: '15px', fontWeight: '800', fontFamily: "'Inter', sans-serif" }}>NAAC </Text>
-                            <Text style={{ color: '#000', fontSize: '15px', fontWeight: '800', fontFamily: "'Inter', sans-serif" }}>A++</Text>
+                            <Text style={{ color: '#000', fontSize: '15px', fontWeight: '800', fontFamily: "'EB Garamond', serif" }}>NAAC </Text>
+                            <Text style={{ color: '#000', fontSize: '15px', fontWeight: '800', fontFamily: "'EB Garamond', serif" }}>A++</Text>
                         </div>
                         <div style={{ textAlign: 'right' }}>
-                            <Text style={{ color: '#000', fontSize: '15px', fontWeight: '800', marginRight: '4px', fontFamily: "'Inter', sans-serif" }}>NIRF</Text>
-                            <Text style={{ color: '#ff5722', fontSize: '15px', fontWeight: '800', fontFamily: "'Inter', sans-serif" }}>#3</Text>
+                            <Text style={{ color: '#000', fontSize: '15px', fontWeight: '800', marginRight: '4px', fontFamily: "'EB Garamond', serif" }}>NIRF</Text>
+                            <Text style={{ color: '#ff5722', fontSize: '15px', fontWeight: '800', fontFamily: "'EB Garamond', serif" }}>#3</Text>
                         </div>
                     </div>
 

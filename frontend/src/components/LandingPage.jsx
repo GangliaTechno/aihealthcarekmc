@@ -7,16 +7,26 @@ import bgVideo from '../assets/video.mov';
 import img1 from '../assets/img2.jpg';
 import img2 from '../assets/img1.png';
 import img4 from '../assets/img4.png';
-// import './LandingPage.css'; // Uncomment if you use an external CSS file
+// import './LandingPage.css'; 
 
 const { Title, Text } = Typography;
 const { Option } = Select;
 
 const LandingPage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    // Track mobile state explicitly to force correct settings
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+    
     const [form] = Form.useForm();
     const videoRef = useRef(null);
     const carouselRef = useRef(null);
+
+    // Update isMobile on resize
+    useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth <= 768);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     // Force autoplay for Safari/iOS
     useEffect(() => {
@@ -71,8 +81,9 @@ const LandingPage = () => {
         { src: img2, alt: 'Inauguration 2', style: { objectPosition: 'center center' } },
     ];
 
-    // --- CAROUSEL SETTINGS (Center Mode) ---
-    const carouselSettings = {
+    // --- CAROUSEL SETTINGS (SPLIT LOGIC) ---
+    // We strictly separate settings to guarantee Mobile is Single View
+    const desktopSettings = {
         dots: false,
         infinite: true,
         centerMode: true,
@@ -80,17 +91,20 @@ const LandingPage = () => {
         slidesToShow: 3,
         slidesToScroll: 1,
         centerPadding: '0px',
-        responsive: [
-            { 
-                breakpoint: 1024, 
-                settings: { slidesToShow: 3, centerPadding: '0px' } 
-            },
-            { 
-                breakpoint: 768, 
-                settings: { slidesToShow: 1, centerPadding: '60px' } 
-            }
-        ]
     };
+
+    const mobileSettings = {
+        dots: false,
+        infinite: true,
+        centerMode: false, // FORCE OFF: No peeking
+        variableWidth: false,
+        speed: 300,        // Faster transition
+        slidesToShow: 1,   // Strictly 1 slide
+        slidesToScroll: 1,
+    };
+
+    // Choose settings based on state
+    const currentSettings = isMobile ? mobileSettings : desktopSettings;
 
     // Custom Arrow Button Styles
     const arrowButtonStyle = {
@@ -118,7 +132,7 @@ const LandingPage = () => {
             
             {/* --- INTERNAL CSS --- */}
             <style>{`
-                /* 1. GALLERY STYLES */
+                /* 1. GALLERY STYLES (Desktop Defaults) */
                 .gallery-wrapper {
                     background: #000;
                     padding: 0px 60px 60px 60px;
@@ -140,7 +154,7 @@ const LandingPage = () => {
                     transition: all 0.5s ease;
                 }
 
-                /* --- CENTER MODE SCALING --- */
+                /* --- DESKTOP CARD STYLES --- */
                 .image-card {
                     height: 240px; 
                     position: relative;
@@ -152,47 +166,33 @@ const LandingPage = () => {
                     transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
                 }
 
+                /* Desktop Scale Effect */
                 .ant-carousel .slick-center .image-card {
-                    transform: scale(1.15) !important; 
+                    transform: scale(1.15); 
                     opacity: 1 !important;
                     z-index: 10;
                     box-shadow: 0 25px 50px rgba(255, 87, 34, 0.5) !important;
                     border: 2px solid rgba(255, 87, 34, 0.3);
                 }
 
-                .image-card:hover {
-                    opacity: 1;
-                }
-
-                .image-card .ant-image {
-                    width: 100%;
-                    height: 100%;
-                }
-
+                .image-card:hover { opacity: 1; }
+                .image-card .ant-image { width: 100%; height: 100%; }
                 .image-card img {
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover; 
-                    display: block;
+                    width: 100%; height: 100%; object-fit: cover; display: block;
                 }
 
                 /* 2. VIDEO HERO */
                 .bg-video {
-                    transform: scale(1);
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                    object-position: center 15%;
+                    transform: scale(1); width: 100%; height: 100%;
+                    object-fit: cover; object-position: center 15%;
                 }
 
                 /* 3. FORM OVERRIDES */
                 .ant-input-affix-wrapper:focus, 
                 .ant-input-affix-wrapper-focused,
                 .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover,
-                .ant-input:focus,
-                .ant-input:hover,
-                .ant-select-selector:focus,
-                .ant-select-focused .ant-select-selector,
+                .ant-input:focus, .ant-input:hover,
+                .ant-select-selector:focus, .ant-select-focused .ant-select-selector,
                 .ant-select:not(.ant-select-disabled):hover .ant-select-selector {
                     box-shadow: none !important; 
                     border-color: #ff5722 !important; 
@@ -201,13 +201,70 @@ const LandingPage = () => {
                     font-weight: 600 !important; color: #888 !important; opacity: 1; 
                 }
 
-                /* MOBILE RESPONSIVENESS */
+                /* --- MOBILE RESPONSIVENESS (FORCE SINGLE RECTANGULAR VIEW) --- */
                 @media (max-width: 768px) {
                     .bg-video { transform: scale(1.0); }
-                    .gallery-wrapper { padding: 0 20px 40px 20px; }
+                    
+                    /* Clean wrapper: No side padding = Wider Image */
+                    .gallery-wrapper { 
+                        padding: 0 10px 40px 10px !important; 
+                        background: #000;
+                    }
                     .gallery-container-carousel { padding: 0; } 
-                    .image-card { height: 220px; border-radius: 20px; }
-                    .ant-carousel .slick-center .image-card { transform: scale(1.05) !important; }
+                    
+                    /* Remove slide padding gaps */
+                    .ant-carousel .slick-slide {
+                        padding: 0 5px !important; 
+                    }
+
+                    /* MOBILE CARD: Rectangular & Wide */
+                    .image-card { 
+                        height: 220px !important; /* Fixed landscape height */
+                        width: 100% !important;   /* Fill the width */
+                        margin: 0 auto !important;
+                        border-radius: 12px; 
+                        opacity: 1 !important;
+                        box-shadow: none !important;
+                        transform: none !important; /* No scaling */
+                    }
+
+                    /* Ensure Center Card is Normal (No zoom effect on mobile) */
+                    .ant-carousel .slick-center .image-card { 
+                        transform: none !important; 
+                        box-shadow: none !important;
+                        border: none !important;
+                    }
+
+                    /* Compacting the Hero Section */
+                    .hero-section {
+                        height: auto !important; 
+                        min-height: auto !important;
+                        padding-bottom: 20px !important;
+                    }
+                    .hero-content-wrapper {
+                        padding-top: 20px !important;
+                        padding-left: 15px !important;
+                        padding-right: 15px !important;
+                    }
+                    .hero-subtitle {
+                        font-size: 14px !important;
+                        letter-spacing: 0.3em !important;
+                        margin-bottom: 5px !important;
+                        margin-top: 70px !important;
+                    }
+                    .hero-title { font-size: 2.5rem !important; }
+                    .hero-description-container { margin-bottom: 20px !important; }
+                    .hero-desc-text {
+                        font-size: 14px !important; 
+                        line-height: 1.5 !important;
+                        margin-bottom: 10px !important;
+                    }
+                    .hero-sub-text { font-size: 13px !important; }
+                    .hero-btn {
+                        padding: 10px 24px !important;
+                        font-size: 12px !important;
+                    }
+                    .hero-gradient { height: 50px !important; }
                 }
             `}</style> 
             
@@ -218,7 +275,7 @@ const LandingPage = () => {
             </div>
 
             {/* --- HERO SECTION --- */}
-            <div style={{ position: 'relative', height: '70vh', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
+            <div className="hero-section" style={{ position: 'relative', height: '70vh', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
                 <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }}>
                     <video
                         ref={videoRef}
@@ -232,12 +289,11 @@ const LandingPage = () => {
                     <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0,0,0,0.8)' }}></div>
                 </div>
 
-                {/* CHANGED: Increased zIndex from 2 to 10 so it sits ABOVE the gradient fade below */}
-                <div style={{ position: 'relative', zIndex: 10, padding: '20px', color: '#fff', paddingTop: '38px' }}>
+                <div className="hero-content-wrapper" style={{ position: 'relative', zIndex: 10, padding: '20px', color: '#fff', paddingTop: '38px' }}>
                     
                     {/* TYPOGRAPHIC LOCKUP */}
                     <div style={{ marginBottom: '30px' }}>
-                        <div style={{ 
+                        <div className="hero-subtitle" style={{ 
                             fontFamily: "'Inter', sans-serif",
                             fontSize: 'clamp(16px, 2vw, 26px)', 
                             fontWeight: '700',
@@ -249,7 +305,7 @@ const LandingPage = () => {
                             OFFICIAL WEBSITE
                         </div>
 
-                        <h1 style={{ 
+                        <h1 className="hero-title" style={{ 
                             fontFamily: "'Inter', sans-serif",
                             fontSize: 'clamp(2.5rem, 6vw, 5.5rem)', 
                             fontWeight: '800',
@@ -263,8 +319,8 @@ const LandingPage = () => {
                     </div>
 
                     {/* DESCRIPTION TEXT */}
-                    <div style={{ maxWidth: '800px', margin: '0 auto 35px auto' }}>
-                        <p style={{ 
+                    <div className="hero-description-container" style={{ maxWidth: '800px', margin: '0 auto 35px auto' }}>
+                        <p className="hero-desc-text" style={{ 
                             fontSize: '19px', 
                             lineHeight: '1.8', 
                             fontWeight: '400', 
@@ -275,7 +331,7 @@ const LandingPage = () => {
                             The <span style={{ fontWeight: '700', color: '#fff' }}>Department of AI in Healthcare at KMC, Manipal</span> is shaping the future of medicine by uniting clinical expertise, data, and artificial intelligence. It serves as a space where healthcare challenges meet intelligent solutions—driving innovation in patient care, research, education, and healthcare operations through responsible, real-world AI.
                         </p>
                         
-                        <p style={{ 
+                        <p className="hero-sub-text" style={{ 
                             fontSize: '17px', 
                             fontWeight: '500', 
                             color: '#fff', 
@@ -289,6 +345,7 @@ const LandingPage = () => {
                     </div>
                     
                     <button
+                        className="hero-btn"
                         onClick={showModal}
                         style={{
                             padding: '12px 32px', 
@@ -316,8 +373,8 @@ const LandingPage = () => {
                     </button>
                 </div>
 
-                {/* Gradient Fade - zIndex is 5, so now the text (zIndex 10) is SAFELY ABOVE it */}
-                <div style={{ 
+                {/* Gradient Fade */}
+                <div className="hero-gradient" style={{ 
                     position: 'absolute', bottom: 0, left: 0, width: '100%', height: '150px', 
                     background: 'linear-gradient(to bottom, transparent, #000)', zIndex: 5, pointerEvents: 'none' 
                 }}></div>
@@ -330,7 +387,7 @@ const LandingPage = () => {
                     
                     {/* Left Arrow */}
                     <button 
-                        style={{ ...arrowButtonStyle, left: '-60px' }} 
+                        style={{ ...arrowButtonStyle, left: isMobile ? '-15px' : '-60px' }} 
                         onClick={() => carouselRef.current.prev()}
                         onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#ff5722'}
                         onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 87, 34, 0.9)'}
@@ -339,7 +396,7 @@ const LandingPage = () => {
                     </button>
 
                     <Image.PreviewGroup>
-                        <Carousel ref={carouselRef} {...carouselSettings}>
+                        <Carousel ref={carouselRef} {...currentSettings}>
                             {galleryItems.map((item, index) => (
                                 <div key={index}>
                                     <div className="image-card">
@@ -359,7 +416,7 @@ const LandingPage = () => {
 
                     {/* Right Arrow */}
                     <button 
-                        style={{ ...arrowButtonStyle, right: '-60px' }} 
+                        style={{ ...arrowButtonStyle, right: isMobile ? '-15px' : '-60px' }} 
                         onClick={() => carouselRef.current.next()}
                         onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#ff5722'}
                         onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 87, 34, 0.9)'}

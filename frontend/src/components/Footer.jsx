@@ -1,5 +1,4 @@
 import { Typography, Space } from 'antd';
-// CHANGED: Imported Filled versions of the icons
 import { EnvironmentFilled, MailFilled, FacebookFilled, LinkedinFilled, YoutubeFilled, InstagramFilled } from '@ant-design/icons';
 
 const { Title, Text } = Typography;
@@ -17,7 +16,6 @@ const Footer = ({ style }) => {
                     margin: 0 auto;
                     gap: 400px; 
                     flex-wrap: wrap;
-                  
                 }
 
                 .footer-section {
@@ -60,19 +58,19 @@ const Footer = ({ style }) => {
 
                 @media (max-width: 768px) {
                     .footer-container {
-                        gap: 30px;
-                        /* Reverts to smaller padding on mobile */
-                        padding: 0 20px; 
-                        justify-content: flex-start; 
-                        flex-direction: column;
-                        align-items: center;
+                        gap: 10px; /* Reduced gap to fit both */
+                        padding: 0 5px;
+                        justify-content: center; /* Center the group */
+                        flex-direction: row;     /* CHANGED: Force side-by-side */
+                        align-items: flex-start; /* Align tops */
                     }
 
                     .footer-section {
-                        gap: 10px;
+                        gap: 8px;
                         text-align: center; 
                         align-items: center;
-                        flex-direction: column;
+                        flex-direction: column; /* Keep icon above text */
+                        width: 48%; /* Force them to share width */
                     }
 
                     .footer-icon {
@@ -83,7 +81,8 @@ const Footer = ({ style }) => {
 
                     .footer-title { font-size: 16px !important; }
                     .footer-label { font-size: 13px !important; }
-                    .footer-content { font-size: 12px !important; line-height: 1.4 !important; }
+                    /* Make text slightly smaller to prevent wrapping issues */
+                    .footer-content { font-size: 11px !important; line-height: 1.3 !important; }
                 }
             `}</style>
 
@@ -114,7 +113,6 @@ const Footer = ({ style }) => {
                     
                     {/* --- ADDRESS --- */}
                     <div className="footer-section">
-                        {/* CHANGED: Used EnvironmentFilled */}
                         <EnvironmentFilled className="footer-icon" />
                         <div className="footer-text-group">
                             <Text className="footer-label" style={{ display: 'block', color: '#333', fontSize: '15.5px', marginBottom: '4px',fontWeight:'600' }}>
@@ -130,7 +128,6 @@ const Footer = ({ style }) => {
 
                     {/* --- EMAIL --- */}
                     <div className="footer-section">
-                        {/* CHANGED: Used MailFilled */}
                         <MailFilled className="footer-icon" />
                         <div className="footer-text-group">
                             <Text className="footer-label" style={{ display: 'block', color: '#333', fontSize: '15.5px', marginBottom: '4px',fontWeight:'600' }}>
@@ -140,7 +137,7 @@ const Footer = ({ style }) => {
                                 <a href="mailto:dpr.mu@manipal.edu" style={{ color: '#555', textDecoration: 'none', transition: 'color 0.2s' }} onMouseOver={(e) => e.target.style.color='#ff5722'} onMouseOut={(e) => e.target.style.color='#555'}>
                                     dpr.mu@manipal.edu
                                 </a>
-                                <a href="mailto:aihealthcare.kmc@manipal.edu" style={{ color: '#555', fontSize:'16px', textDecoration: 'none', transition: 'color 0.2s' }} onMouseOver={(e) => e.target.style.color='#ff5722'} onMouseOut={(e) => e.target.style.color='#555'}>
+                                <a href="mailto:aihealthcare.kmc@manipal.edu" style={{ color: '#555',  textDecoration: 'none', transition: 'color 0.2s' }} onMouseOver={(e) => e.target.style.color='#ff5722'} onMouseOut={(e) => e.target.style.color='#555'}>
                                     aihealthcare.kmc@manipal.edu
                                 </a>
                                 
