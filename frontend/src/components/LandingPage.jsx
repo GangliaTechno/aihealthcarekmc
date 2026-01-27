@@ -369,7 +369,7 @@ const LandingPage = () => {
                             e.target.style.boxShadow = '0 4px 15px rgba(255, 87, 34, 0.3)';
                         }}
                     >
-                        EXPLORE WHAT'S POSSIBLE
+                        CONNECT WITH US
                     </button>
                 </div>
 
@@ -443,8 +443,8 @@ const LandingPage = () => {
                     <Form.Item name="email" rules={[{ type: 'email', message: 'Invalid E-mail!' }, { required: true, message: 'Please input your E-mail!' }]}>
                         <Input prefix={<MailOutlined style={{ color: '#999', marginRight: '10px' }} />} placeholder="Email address*" />
                     </Form.Item>
-                    <Form.Item name="phone" rules={[{ required: true, message: 'Please input phone number!' }, { pattern: /^\d{10}$/, message: 'Please enter a valid phone number' }]}>
-                        <Input addonBefore={prefixSelector} placeholder="Phone number*" maxLength={10} />
+                    <Form.Item name="phone" rules={[{  message: 'Please input phone number!' }, { pattern: /^\d{10}$/, message: 'Please enter a valid phone number' }]}>
+                        <Input addonBefore={prefixSelector} placeholder="Phone number" maxLength={10} />
                     </Form.Item>
                     <Form.Item name="company" rules={[{ required: true, message: 'Please input Company name!' }]}>
                         <Input prefix={<HomeOutlined style={{ color: '#999', marginRight: '10px' }} />} placeholder="Company / Organization name*" />

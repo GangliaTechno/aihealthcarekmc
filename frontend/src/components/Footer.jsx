@@ -119,9 +119,11 @@ const Footer = ({ style }) => {
                                 Address
                             </Text>
                             <div className="footer-content" style={{ color: '#555', fontSize: '14px', lineHeight: '1.5', maxWidth: '280px' }}>
-                                Dept of AI in Healthcare,<br />
-                                1st Floor, Kasturba Medical College(KMC),<br />
-                                Madhav Nagar, Manipal - 576104
+                                Room No: 18219<br />
+                                Ground floor<br />
+                                KMC Administrative block,<br/>
+                                KMC,Manipal<br/>
+                                Madhav Nagar-576104
                             </div>
                         </div>
                     </div>
@@ -134,9 +136,7 @@ const Footer = ({ style }) => {
                                 Email
                             </Text>
                             <div className="footer-content" style={{ display: 'flex', flexDirection: 'column', gap: '3px', color: '#555', fontSize: '16px', lineHeight: '1.5' }}>
-                                <a href="mailto:dpr.mu@manipal.edu" style={{ color: '#555', textDecoration: 'none', transition: 'color 0.2s' }} onMouseOver={(e) => e.target.style.color='#ff5722'} onMouseOut={(e) => e.target.style.color='#555'}>
-                                    dpr.mu@manipal.edu
-                                </a>
+
                                 <a href="mailto:aihealthcare.kmc@manipal.edu" style={{ color: '#555',  textDecoration: 'none', transition: 'color 0.2s' }} onMouseOver={(e) => e.target.style.color='#ff5722'} onMouseOut={(e) => e.target.style.color='#555'}>
                                     aihealthcare.kmc@manipal.edu
                                 </a>
