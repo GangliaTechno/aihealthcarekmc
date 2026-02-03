@@ -84,10 +84,10 @@ const LandingPage = () => {
     const galleryItems = [
         { src: img2, alt: 'Inauguration', style: { objectPosition: 'center center' } },
         { src: img5, alt: ' Inaugration 1', style: { objectPosition: 'center center' } },
+        { src: img10, alt: 'Gallery 2', style: { objectPosition: 'center center' } },
         { src: img6, alt: 'Inauguration 2', style: { objectPosition: 'center center' } },
         { src: img8, alt: 'Briefing', style: { objectPosition: 'center center' } },
         { src: img9, alt: 'Gallery 1', style: { objectPosition: 'center center' } },
-        { src: img10, alt: 'Gallery 2', style: { objectPosition: 'center center' } },
         { src: img11, alt: 'Gallery 3', style: { objectPosition: 'center center' } },
         { src: img12, alt: 'Gallery 4', style: { objectPosition: 'center center' } },
         { src: img13, alt: 'Gallery 5', style: { objectPosition: 'center center' } },
@@ -103,6 +103,8 @@ const LandingPage = () => {
         slidesToShow: 3,
         slidesToScroll: 1,
         centerPadding: '0px',
+        autoplay: true,
+        autoplaySpeed: 3000,
     };
 
     const mobileSettings = {
@@ -113,6 +115,8 @@ const LandingPage = () => {
         speed: 300,        // Faster transition
         slidesToShow: 1,   // Strictly 1 slide
         slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 3000,
     };
 
     // Choose settings based on state
