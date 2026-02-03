@@ -3,10 +3,18 @@ import { Form, Input, Select, Button, Typography, Modal, message, ConfigProvider
 import { MailOutlined, HomeOutlined, TeamOutlined, MessageOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
 import Header from './Header';
 import Footer from './Footer';
-import bgVideo from '../assets/video.mov'; 
-import img1 from '../assets/img2.jpg';
-import img2 from '../assets/img1.png';
-import img4 from '../assets/img4.png';
+import bgVideo from '../assets/video.mov';
+import img2 from '../assets/img1.jpg';
+import img5 from '../assets/img5.jpg';
+import img6 from '../assets/img6.jpg';
+import img7 from '../assets/img7.jpg';
+import img8 from '../assets/img8.jpg';
+import img9 from '../assets/img9.jpg';
+import img10 from '../assets/img10.jpg';
+import img11 from '../assets/img11.jpg';
+import img12 from '../assets/img12.jpg';
+import img13 from '../assets/img13.jpg';
+
 // import './LandingPage.css'; 
 
 const { Title, Text } = Typography;
@@ -16,7 +24,7 @@ const LandingPage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     // Track mobile state explicitly to force correct settings
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-    
+
     const [form] = Form.useForm();
     const videoRef = useRef(null);
     const carouselRef = useRef(null);
@@ -31,7 +39,7 @@ const LandingPage = () => {
     // Force autoplay for Safari/iOS
     useEffect(() => {
         if (videoRef.current) {
-            videoRef.current.defaultMuted = true; 
+            videoRef.current.defaultMuted = true;
             videoRef.current.muted = true;
             videoRef.current.play().catch(error => console.log("Autoplay prevented:", error));
         }
@@ -50,7 +58,7 @@ const LandingPage = () => {
         const subject = `New Inquiry: ${values.collaborationType} - ${values.company}`;
         const body = `New Inquiry Received:\n\nEmail: ${values.email}\nPhone: +91 ${values.phone}\nCompany/Organization: ${values.company}\nCollaboration Type: ${values.collaborationType}\n\nMessage:\n${values.comments}`;
         const mailtoLink = `mailto:aihealthcare.kmc@manipal.edu?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        
+
         const link = document.createElement('a');
         link.href = mailtoLink;
         document.body.appendChild(link);
@@ -74,11 +82,15 @@ const LandingPage = () => {
 
     // Gallery Data
     const galleryItems = [
-        { src: img1, alt: 'Campus Building', style: { objectPosition: 'center center' } },
         { src: img2, alt: 'Inauguration', style: { objectPosition: 'center center' } },
-        { src: img4, alt: 'WWM Wall', style: { objectPosition: '15% center' } },
-        { src: img1, alt: 'Campus Building 2', style: { objectPosition: 'center center' } },
-        { src: img2, alt: 'Inauguration 2', style: { objectPosition: 'center center' } },
+        { src: img5, alt: ' Inaugration 1', style: { objectPosition: 'center center' } },
+        { src: img6, alt: 'Inauguration 2', style: { objectPosition: 'center center' } },
+        { src: img8, alt: 'Briefing', style: { objectPosition: 'center center' } },
+        { src: img9, alt: 'Gallery 1', style: { objectPosition: 'center center' } },
+        { src: img10, alt: 'Gallery 2', style: { objectPosition: 'center center' } },
+        { src: img11, alt: 'Gallery 3', style: { objectPosition: 'center center' } },
+        { src: img12, alt: 'Gallery 4', style: { objectPosition: 'center center' } },
+        { src: img13, alt: 'Gallery 5', style: { objectPosition: 'center center' } },
     ];
 
     // --- CAROUSEL SETTINGS (SPLIT LOGIC) ---
@@ -112,7 +124,7 @@ const LandingPage = () => {
         top: '50%',
         transform: 'translateY(-50%)',
         zIndex: 30,
-        backgroundColor: 'rgba(255, 87, 34, 0.9)', 
+        backgroundColor: 'rgba(255, 87, 34, 0.9)',
         color: 'white',
         border: '2px solid #fff',
         borderRadius: '50%',
@@ -129,7 +141,7 @@ const LandingPage = () => {
 
     return (
         <div style={{ position: 'relative', minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#fff' }}>
-            
+
             {/* --- INTERNAL CSS --- */}
             <style>{`
                 /* 1. GALLERY STYLES (Desktop Defaults) */
@@ -266,8 +278,8 @@ const LandingPage = () => {
                     }
                     .hero-gradient { height: 50px !important; }
                 }
-            `}</style> 
-            
+            `}</style>
+
 
             {/* --- HEADER --- */}
             <div style={{ position: 'relative', zIndex: 10 }}>
@@ -290,24 +302,24 @@ const LandingPage = () => {
                 </div>
 
                 <div className="hero-content-wrapper" style={{ position: 'relative', zIndex: 10, padding: '20px', color: '#fff', paddingTop: '38px' }}>
-                    
+
                     {/* TYPOGRAPHIC LOCKUP */}
                     <div style={{ marginBottom: '30px' }}>
-                        <div className="hero-subtitle" style={{ 
+                        <div className="hero-subtitle" style={{
                             fontFamily: "'Inter', sans-serif",
-                            fontSize: 'clamp(16px, 2vw, 26px)', 
+                            fontSize: 'clamp(16px, 2vw, 26px)',
                             fontWeight: '700',
-                            letterSpacing: '0.6em', 
-                            marginRight: '-0.6em', 
+                            letterSpacing: '0.6em',
+                            marginRight: '-0.6em',
                             marginBottom: '10px',
                             color: 'rgba(255,255,255,0.9)'
                         }}>
                             OFFICIAL WEBSITE
                         </div>
 
-                        <h1 className="hero-title" style={{ 
+                        <h1 className="hero-title" style={{
                             fontFamily: "'Inter', sans-serif",
-                            fontSize: 'clamp(2.5rem, 6vw, 5.5rem)', 
+                            fontSize: 'clamp(2.5rem, 6vw, 5.5rem)',
                             fontWeight: '800',
                             margin: 0,
                             lineHeight: '1',
@@ -320,43 +332,43 @@ const LandingPage = () => {
 
                     {/* DESCRIPTION TEXT */}
                     <div className="hero-description-container" style={{ maxWidth: '800px', margin: '0 auto 35px auto' }}>
-                        <p className="hero-desc-text" style={{ 
-                            fontSize: '19px', 
-                            lineHeight: '1.8', 
-                            fontWeight: '400', 
-                            color: '#d1d1d1', 
+                        <p className="hero-desc-text" style={{
+                            fontSize: '19px',
+                            lineHeight: '1.8',
+                            fontWeight: '400',
+                            color: '#d1d1d1',
                             marginBottom: '20px',
                             fontFamily: "'Inter', sans-serif"
                         }}>
                             The <span style={{ fontWeight: '700', color: '#fff' }}>Department of AI in Healthcare at KMC, Manipal</span> is shaping the future of medicine by uniting clinical expertise, data, and artificial intelligence. It serves as a space where healthcare challenges meet intelligent solutions—driving innovation in patient care, research, education, and healthcare operations through responsible, real-world AI.
                         </p>
-                        
-                        <p className="hero-sub-text" style={{ 
-                            fontSize: '17px', 
-                            fontWeight: '500', 
-                            color: '#fff', 
+
+                        <p className="hero-sub-text" style={{
+                            fontSize: '17px',
+                            fontWeight: '500',
+                            color: '#fff',
                             marginBottom: '0',
                             fontStyle: 'italic',
                             fontFamily: "'Inter', sans-serif",
-                            opacity: 0.9 
+                            opacity: 0.9
                         }}>
                             Curious what’s next in healthcare?
                         </p>
                     </div>
-                    
+
                     <button
                         className="hero-btn"
                         onClick={showModal}
                         style={{
-                            padding: '12px 32px', 
-                            backgroundColor: '#ff5722', 
-                            color: '#fff', 
+                            padding: '12px 32px',
+                            backgroundColor: '#ff5722',
+                            color: '#fff',
                             border: 'none',
-                            borderRadius: '50px', 
-                            fontSize: '14px', 
-                            fontWeight: '700', 
+                            borderRadius: '50px',
+                            fontSize: '14px',
+                            fontWeight: '700',
                             cursor: 'pointer',
-                            transition: 'all 0.3s ease', 
+                            transition: 'all 0.3s ease',
                             boxShadow: '0 4px 15px rgba(255, 87, 34, 0.3)',
                             letterSpacing: '0.5px'
                         }}
@@ -374,20 +386,20 @@ const LandingPage = () => {
                 </div>
 
                 {/* Gradient Fade */}
-                <div className="hero-gradient" style={{ 
-                    position: 'absolute', bottom: 0, left: 0, width: '100%', height: '150px', 
-                    background: 'linear-gradient(to bottom, transparent, #000)', zIndex: 5, pointerEvents: 'none' 
+                <div className="hero-gradient" style={{
+                    position: 'absolute', bottom: 0, left: 0, width: '100%', height: '150px',
+                    background: 'linear-gradient(to bottom, transparent, #000)', zIndex: 5, pointerEvents: 'none'
                 }}></div>
             </div>
 
             {/* --- GALLERY SECTION (CAROUSEL WITH POPUP) --- */}
             <div className="gallery-wrapper">
-                
+
                 <div className="gallery-container-carousel">
-                    
+
                     {/* Left Arrow */}
-                    <button 
-                        style={{ ...arrowButtonStyle, left: isMobile ? '-15px' : '-60px' }} 
+                    <button
+                        style={{ ...arrowButtonStyle, left: isMobile ? '-15px' : '-60px' }}
                         onClick={() => carouselRef.current.prev()}
                         onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#ff5722'}
                         onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 87, 34, 0.9)'}
@@ -401,12 +413,12 @@ const LandingPage = () => {
                                 <div key={index}>
                                     <div className="image-card">
                                         <Image
-                                            src={item.src} 
+                                            src={item.src}
                                             alt={item.alt}
                                             style={{ ...item.style, width: '100%', height: '100%', objectFit: 'cover' }}
                                             height="100%"
                                             width="100%"
-                                            preview={{ mask: false }} 
+                                            preview={{ mask: false }}
                                         />
                                     </div>
                                 </div>
@@ -415,8 +427,8 @@ const LandingPage = () => {
                     </Image.PreviewGroup>
 
                     {/* Right Arrow */}
-                    <button 
-                        style={{ ...arrowButtonStyle, right: isMobile ? '-15px' : '-60px' }} 
+                    <button
+                        style={{ ...arrowButtonStyle, right: isMobile ? '-15px' : '-60px' }}
                         onClick={() => carouselRef.current.next()}
                         onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#ff5722'}
                         onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 87, 34, 0.9)'}
@@ -426,7 +438,7 @@ const LandingPage = () => {
 
                 </div>
             </div>
-            
+
             {/* --- FOOTER --- */}
             <div style={{ position: 'relative', zIndex: 2 }}>
                 <Footer />
@@ -438,12 +450,12 @@ const LandingPage = () => {
                     <Title level={3} style={{ margin: 0, color: '#1a1a1a', fontWeight: '700', fontFamily: "'Inter', sans-serif" }}>Welcome!</Title>
                     <Text style={{ color: '#666', fontSize: '14px', fontWeight: '500' }}>Kindly provide your details for further communication</Text>
                 </div>
-                
+
                 <Form form={form} onFinish={onFinish} layout="vertical" size="large" preserve={false}>
                     <Form.Item name="email" rules={[{ type: 'email', message: 'Invalid E-mail!' }, { required: true, message: 'Please input your E-mail!' }]}>
                         <Input prefix={<MailOutlined style={{ color: '#999', marginRight: '10px' }} />} placeholder="Email address*" />
                     </Form.Item>
-                    <Form.Item name="phone" rules={[{  message: 'Please input phone number!' }, { pattern: /^\d{10}$/, message: 'Please enter a valid phone number' }]}>
+                    <Form.Item name="phone" rules={[{ message: 'Please input phone number!' }, { pattern: /^\d{10}$/, message: 'Please enter a valid phone number' }]}>
                         <Input addonBefore={prefixSelector} placeholder="Phone number" maxLength={10} />
                     </Form.Item>
                     <Form.Item name="company" rules={[{ required: true, message: 'Please input Company name!' }]}>
