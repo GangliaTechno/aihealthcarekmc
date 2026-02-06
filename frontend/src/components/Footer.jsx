@@ -87,8 +87,8 @@ const Footer = ({ style }) => {
             `}</style>
 
             <div style={{
-                background:'#D3D3D3',
-                padding: '22px 0', 
+                background: '#D3D3D3',
+                padding: '22px 0',
                 color: '#333',
                 textAlign: 'center',
                 width: '100%',
@@ -96,33 +96,33 @@ const Footer = ({ style }) => {
                 ...style
             }}>
                 {/* Title */}
-                <Title level={5} className="footer-title" style={{ 
-                    color: '#333', 
+                <Title level={5} className="footer-title" style={{
+                    color: '#333',
                     marginBottom: '20px',
-                    fontWeight: '800', 
+                    fontWeight: '800',
                     fontSize: '18px',
-                    fontFamily: "'EB Garamond', serif", 
+                    fontFamily: "'EB Garamond', serif",
                     textTransform: 'uppercase',
                     letterSpacing: '1px'
                 }}>
-                    Connect with Us 
+                    Connect with Us
                 </Title>
 
                 {/* Content Container */}
                 <div className="footer-container">
-                    
+
                     {/* --- ADDRESS --- */}
                     <div className="footer-section">
                         <EnvironmentFilled className="footer-icon" />
                         <div className="footer-text-group">
-                            <Text className="footer-label" style={{ display: 'block', color: '#333', fontSize: '15.5px', marginBottom: '4px',fontWeight:'600' }}>
+                            <Text className="footer-label" style={{ display: 'block', color: '#333', fontSize: '15.5px', marginBottom: '4px', fontWeight: '600' }}>
                                 Address
                             </Text>
                             <div className="footer-content" style={{ color: '#555', fontSize: '14px', lineHeight: '1.5', maxWidth: '280px' }}>
-                                Room No: 18219<br />
+                                Room No: 18 & 19<br />
                                 Ground floor<br />
-                                KMC Administrative block,<br/>
-                                KMC,Manipal<br/>
+                                KMC Administrative block,<br />
+                                KMC,Manipal<br />
                                 Madhav Nagar-576104
                             </div>
                         </div>
@@ -132,25 +132,25 @@ const Footer = ({ style }) => {
                     <div className="footer-section">
                         <MailFilled className="footer-icon" />
                         <div className="footer-text-group">
-                            <Text className="footer-label" style={{ display: 'block', color: '#333', fontSize: '15.5px', marginBottom: '4px',fontWeight:'600' }}>
+                            <Text className="footer-label" style={{ display: 'block', color: '#333', fontSize: '15.5px', marginBottom: '4px', fontWeight: '600' }}>
                                 Email
                             </Text>
                             <div className="footer-content" style={{ display: 'flex', flexDirection: 'column', gap: '3px', color: '#555', fontSize: '16px', lineHeight: '1.5' }}>
 
-                                <a href="mailto:aihealthcare.kmc@manipal.edu" style={{ color: '#555',  textDecoration: 'none', transition: 'color 0.2s' }} onMouseOver={(e) => e.target.style.color='#ff5722'} onMouseOut={(e) => e.target.style.color='#555'}>
+                                <a href="mailto:aihealthcare.kmc@manipal.edu" style={{ color: '#555', textDecoration: 'none', transition: 'color 0.2s' }} onMouseOver={(e) => e.target.style.color = '#ff5722'} onMouseOut={(e) => e.target.style.color = '#555'}>
                                     aihealthcare.kmc@manipal.edu
                                 </a>
-                                
+
                             </div>
                         </div>
                     </div>
                 </div>
 
                 {/* --- SOCIAL MEDIA ICONS --- */}
-                <div style={{ 
-                    marginTop: '25px', 
-                    width: '90%', 
-                    maxWidth: '1000px', 
+                <div style={{
+                    marginTop: '25px',
+                    width: '90%',
+                    maxWidth: '1000px',
                     margin: '25px auto 0 auto',
                     borderTop: '1px solid rgba(0,0,0,0.05)',
                     paddingTop: '15px'

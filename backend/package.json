@@ -1,0 +1,21 @@
+{
+  "name": "ai-healthcare-kmc-backend",
+  "version": "1.0.0",
+  "description": "Backend for AI Healthcare KMC Inquiry Form",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "nodemailer": "^8.0.0",
+    "resend": "^6.9.1"
+  }
+}
