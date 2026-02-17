@@ -12,11 +12,14 @@ export const sendInquiry = async (req, res) => {
   }
 
   try {
-    const mailOptions = {
+    /* =========================
+       1️⃣ ADMIN NOTIFICATION
+       ========================= */
+    await transporter.sendMail({
       // Authenticated Gmail sender
       from: `"AI Healthcare KMC Website" <${process.env.SMTP_USER}>`,
 
-      // ✅ Send inquiry to Gmail inbox
+      // Send inquiry to admin inbox
       to: "aihealthcare.kmc@gmail.com",
 
       // Replies go to the user
@@ -58,9 +61,41 @@ export const sendInquiry = async (req, res) => {
           </div>
         </div>
       `,
-    };
+    });
 
-    await transporter.sendMail(mailOptions);
+    /* =========================
+       2️⃣ AUTO-REPLY TO USER
+       ========================= */
+    await transporter.sendMail({
+      from: `"AI Healthcare KMC" <${process.env.SMTP_USER}>`,
+      to: email,
+      subject: "We have received your inquiry – AI Healthcare KMC",
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <p>Dear ${organization},</p>
+
+          <p>
+            Thank you for contacting <strong>AI Healthcare KMC</strong>.
+            We have successfully received your inquiry.
+          </p>
+
+          <p>
+            Our team will review your message and get back to you shortly.
+          </p>
+
+          <p><strong>Your message:</strong></p>
+          <blockquote style="background:#f5f5f5; padding:10px; border-left:4px solid #ff5722;">
+            ${message}
+          </blockquote>
+
+          <p>
+            Best regards,<br />
+            <strong>AI Healthcare KMC Team</strong><br />
+            Kasturba Medical College, Manipal
+          </p>
+        </div>
+      `,
+    });
 
     return res.status(200).json({
       success: true,
