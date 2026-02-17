@@ -16,6 +16,7 @@ import img12 from '../assets/img12.jpg';
 import img13 from '../assets/img13.jpg';
 
 // import './LandingPage.css'; 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const { Title, Text } = Typography;
 const { Option } = Select;
@@ -55,6 +56,7 @@ const LandingPage = () => {
     const handleCancel = () => setIsModalOpen(false);
 
     // made changes here
+
     const onFinish = async (values) => {
         try {
             const payload = {
@@ -65,7 +67,7 @@ const LandingPage = () => {
                 message: values.comments,
             };
 
-            const response = await fetch("http://localhost:5000/api/inquiry", {
+            const response = await fetch(`${API_BASE_URL}/api/inquiry`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
