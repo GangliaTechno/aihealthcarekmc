@@ -54,20 +54,40 @@ const LandingPage = () => {
     const showModal = () => setIsModalOpen(true);
     const handleCancel = () => setIsModalOpen(false);
 
-    const onFinish = (values) => {
-        const subject = `New Inquiry: ${values.collaborationType} - ${values.company}`;
-        const body = `New Inquiry Received:\n\nEmail: ${values.email}\nPhone: +91 ${values.phone}\nCompany/Organization: ${values.company}\nCollaboration Type: ${values.collaborationType}\n\nMessage:\n${values.comments}`;
-        const mailtoLink = `mailto:aihealthcare.kmc@manipal.edu?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    // made changes here
+    const onFinish = async (values) => {
+        try {
+            const payload = {
+                email: values.email,
+                phone: values.phone || "",
+                organization: values.company,
+                collaborationType: values.collaborationType,
+                message: values.comments,
+            };
 
-        const link = document.createElement('a');
-        link.href = mailtoLink;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+            const response = await fetch("http://localhost:5000/api/inquiry", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(payload),
+            });
 
-        message.success('Opening your email client...');
-        setIsModalOpen(false);
+            const result = await response.json();
+
+            if (result.success) {
+                message.success("Inquiry sent successfully");
+                form.resetFields();
+                setIsModalOpen(false);
+            } else {
+                message.error("Failed to send inquiry. Please try again.");
+            }
+        } catch (error) {
+            console.error("Inquiry submit error:", error);
+            message.error("Server error. Please try again later.");
+        }
     };
+
 
     const prefixSelector = (
         <span style={{ fontSize: '15px', fontWeight: '600', color: '#1a1a1a', padding: '0 4px', fontFamily: "'Inter', sans-serif" }}>+91</span>
@@ -465,13 +485,29 @@ const LandingPage = () => {
                     <Form.Item name="company" rules={[{ required: true, message: 'Please input Company name!' }]}>
                         <Input prefix={<HomeOutlined style={{ color: '#999', marginRight: '10px' }} />} placeholder="Company / Organization name*" />
                     </Form.Item>
-                    <Form.Item name="collaborationType" rules={[{ required: true, message: 'Select collaboration type!' }]}>
+
+                    {/* made changes here */}
+                    <Form.Item
+                        name="collaborationType"
+                        rules={[{ required: true, message: 'Select collaboration type!' }]}
+                        getValueFromEvent={(value) => value}
+                    >
+
                         <ConfigProvider theme={{ token: { colorPrimary: '#ff5722' } }}>
-                            <Select placeholder="Collaboration type*" suffixIcon={<TeamOutlined style={{ color: '#999' }} />} getPopupContainer={(trigger) => trigger.parentNode}>
+                            <Select
+                                placeholder="Collaboration type*"
+                                suffixIcon={<TeamOutlined style={{ color: '#999' }} />}
+                                getPopupContainer={(trigger) => trigger.parentNode}
+                                onChange={(value) => form.setFieldValue("collaborationType", value)}
+                            >
                                 {collaborationOptions.map(option => (
-                                    <Option key={option.value} value={option.value}>{option.label}</Option>
+                                    <Option key={option.value} value={option.value}>
+                                        {option.label}
+                                    </Option>
                                 ))}
                             </Select>
+
+
                         </ConfigProvider>
                     </Form.Item>
                     <Form.Item name="comments" rules={[{ required: true, message: 'Please enter your comments!' }]}>

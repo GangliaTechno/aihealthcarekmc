@@ -13,13 +13,16 @@ export const sendInquiry = async (req, res) => {
 
   try {
     const mailOptions = {
-      // Gmail SMTP requires FROM to be the authenticated Gmail address
-      from: process.env.SMTP_USER,
+      // Authenticated Gmail sender
+      from: `"AI Healthcare KMC Website" <${process.env.SMTP_USER}>`,
 
-      // For development, send inquiry to developer email
-      to: process.env.DEV_EMAIL,
+      // ✅ Send inquiry to Gmail inbox
+      to: "aihealthcare.kmc@gmail.com",
 
-      subject: "New Inquiry – AI Healthcare KMC (DEV)",
+      // Replies go to the user
+      replyTo: email,
+
+      subject: "New Inquiry – AI Healthcare KMC",
 
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px;">
@@ -51,7 +54,7 @@ export const sendInquiry = async (req, res) => {
           </div>
 
           <div style="margin-top: 30px; text-align: center; font-size: 12px; color: #999;">
-            <p>This email was sent from the AI Healthcare KMC Inquiry Form (Development).</p>
+            <p>This email was sent from the AI Healthcare KMC website contact form.</p>
           </div>
         </div>
       `,
