@@ -16,7 +16,7 @@ import img12 from '../assets/img12.jpg';
 import img13 from '../assets/img13.jpg';
 
 // import './LandingPage.css'; 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 
 const { Title, Text } = Typography;
 const { Option } = Select;
@@ -56,7 +56,7 @@ const LandingPage = () => {
     const handleCancel = () => setIsModalOpen(false);
 
     // made changes here
-
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
     const onFinish = async (values) => {
         try {
             const payload = {
