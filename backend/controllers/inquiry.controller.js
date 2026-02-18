@@ -1,3 +1,5 @@
+import fetch from "node-fetch";
+
 export const sendInquiry = async (req, res) => {
   const { email, phone, organization, collaborationType, message } = req.body;
 
