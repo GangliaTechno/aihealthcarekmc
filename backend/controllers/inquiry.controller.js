@@ -1,5 +1,3 @@
-import transporter from "../config/mailer.js";
-
 export const sendInquiry = async (req, res) => {
   const { email, phone, organization, collaborationType, message } = req.body;
 
@@ -15,19 +13,32 @@ export const sendInquiry = async (req, res) => {
     /* =========================
        1️⃣ ADMIN NOTIFICATION
        ========================= */
-    await transporter.sendMail({
-      // Authenticated Gmail sender
-      from: `"AI Healthcare KMC Website" <${process.env.SMTP_USER}>`,
+    const adminResponse = await fetch("https://api.brevo.com/v3/smtp/email", {
+      method: "POST",
+      headers: {
+        accept: "application/json",
+        "api-key": process.env.BREVO_API_KEY,
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        sender: {
+          email: "aihealthcare.kmc@gmail.com",
+          name: "AI Healthcare KMC Website",
+        },
+        to: [
+          {
+            email: "aihealthcare.kmc@gmail.com",
+            name: "AI Healthcare KMC",
+          },
+        ],
+        replyTo: {
+          email: email,
+          name: organization,
+        },
+        subject: "New Inquiry – AI Healthcare KMC",
 
-      // Send inquiry to admin inbox
-      to: "aihealthcare.kmc@gmail.com",
-
-      // Replies go to the user
-      replyTo: email,
-
-      subject: "New Inquiry – AI Healthcare KMC",
-
-      html: `
+        // 🔒 ADMIN HTML — UNCHANGED
+        htmlContent: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px;">
           <h2 style="color: #333; text-align: center;">New Inquiry Received</h2>
           <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
@@ -60,18 +71,38 @@ export const sendInquiry = async (req, res) => {
             <p>This email was sent from the AI Healthcare KMC website contact form.</p>
           </div>
         </div>
-      `,
+        `,
+      }),
     });
+
+    if (!adminResponse.ok) {
+      const errorData = await adminResponse.json();
+      throw new Error(JSON.stringify(errorData));
+    }
 
     /* =========================
        2️⃣ AUTO-REPLY TO USER
        ========================= */
-    await transporter.sendMail({
-      from: `"AI Healthcare KMC" <${process.env.SMTP_USER}>`,
-      to: email,
-      subject: "We have received your inquiry – AI Healthcare KMC",
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+    await fetch("https://api.brevo.com/v3/smtp/email", {
+      method: "POST",
+      headers: {
+        accept: "application/json",
+        "api-key": process.env.BREVO_API_KEY,
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        sender: {
+          email: "aihealthcare.kmc@gmail.com",
+          name: "AI Healthcare KMC",
+        },
+        to: [
+          {
+            email: email,
+            name: organization,
+          },
+        ],
+        subject: "We have received your inquiry – AI Healthcare KMC",
+        htmlContent: `
           <p>Dear ${organization},</p>
 
           <p>
@@ -93,21 +124,20 @@ export const sendInquiry = async (req, res) => {
             <strong>AI Healthcare KMC Team</strong><br />
             Kasturba Medical College, Manipal
           </p>
-        </div>
-      `,
+        `,
+      }),
     });
 
     return res.status(200).json({
       success: true,
       message: "Inquiry email sent successfully",
     });
-  } catch (error) {
-    console.error("Error sending inquiry email:", error);
 
+  } catch (error) {
+    console.error("Brevo API error:", error);
     return res.status(500).json({
       success: false,
       message: "Failed to send inquiry email",
-      error: error.message,
     });
   }
 };
